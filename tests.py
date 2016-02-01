@@ -42,6 +42,9 @@ class TestIsBday(unittest.TestCase):
         self.assertFalse(isbday(date(2014, 7, 4)))
         self.assertTrue(isbday(date(2014, 7, 4), holidays=holidays.CA()))
 
+        self.assertFalse(isbday(date(2014, 1, 1), weekdays_off=(0, 1, 2)))
+        self.assertTrue(isbday(date(2014, 1, 2), weekdays_off=(0, 1, 2)))
+
 
 class TestRelativeDelta(unittest.TestCase):
 
@@ -56,6 +59,10 @@ class TestRelativeDelta(unittest.TestCase):
                          relativedelta(months=1, days=1, bdays=23))
         self.assertEqual(relativedelta(date(2014, 1, 1), date(2014, 2, 2)),
                          relativedelta(months=-1, days=-1, bdays=-23))
+        self.assertEqual(
+            relativedelta(
+                date(2014, 1, 7), date(2014, 1, 3), weekdays_off=(0, 5, 6)
+            ), relativedelta(days=4, bdays=1))
 
     def test_init_time(self):
         self.assertEqual(relativedelta(datetime(2015, 1, 5, 9, 15),

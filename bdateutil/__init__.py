@@ -22,11 +22,13 @@ from bdateutil.relativedelta import MO, TU, WE, TH, FR, SA, SU
 from bdateutil.rrule import *
 
 
-def isbday(dt, holidays=None):
+def isbday(dt, holidays=None, weekdays_off=None):
     if holidays is None:
         holidays = getattr(isbday, 'holidays', ())
+    if weekdays_off is None:
+        weekdays_off = getattr(isbday, 'weekdays_off', (5, 6))
     dt = parse(dt)
-    return not (dt.weekday() in (5, 6) or dt in holidays)
+    return not (dt.weekday() in weekdays_off or dt in holidays)
 
 
 class date(basedate):
