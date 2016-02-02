@@ -172,6 +172,16 @@ class TestRelativeDelta(unittest.TestCase):
         self.assertEqual(-relativedelta(years=+1, bdays=-3),
                          relativedelta(years=-1, bdays=+3))
 
+        delta = relativedelta(
+            bdays=2,
+            weekdays_off=(5, 6),
+            holidays={date(2015, 12, 25): "Christmas"})
+        start = date(2015, 12, 24)
+        end = date(2015, 12, 29)
+        self.assertEqual(isbday(start), True, "not a bday")
+        self.assertEqual(start + delta, end, "first is false")
+        self.assertEqual(end - delta, start, "second is false")
+
     def test_bool(self):
         self.assertTrue(relativedelta(bdays=1))
         self.assertTrue(relativedelta(days=1))
